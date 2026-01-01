@@ -1,0 +1,9 @@
+flask
+requests
+torch
+numpy
+pandas
+streamlit
+plotly
+scikit-learn
+joblib
