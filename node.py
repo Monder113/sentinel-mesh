@@ -6,6 +6,7 @@ import numpy as np
 from flask import Flask, jsonify, request
 from core.blockchain import Blockchain
 from core.detector import SentinelDetector
+from core.contracts import ContractEngine
 from utils.data_helper import load_scaler, get_test_sample
 
 app = Flask(__name__)
@@ -35,6 +36,10 @@ except Exception as e:
     detector = None
     print(f"❌ YZ Modeli yüklenemedi: {e}")
 
+# SMART CONTRACT ENGINE
+contract_engine = ContractEngine()
+print(f"📜 Smart Contract Engine initialized with {len(contract_engine.contracts)} contracts")
+
 #1. AĞ TARAMA VE TESPİT (YZ AJANI) 
 @app.route('/scan', methods=['GET'])
 def scan_network():
@@ -59,10 +64,21 @@ def scan_network():
             alert_type="AI_ANOMALY_DETECTED",
             confidence=mse_loss
         )
+        
+        # Smart Contract Evaluation - trigger automated responses
+        simulated_ip = f"192.168.1.{random_index % 255}"
+        executed_actions = contract_engine.evaluate(
+            alert_type="AI_ANOMALY_DETECTED",
+            confidence=mse_loss,
+            source_ip=simulated_ip
+        )
+        
         return jsonify({
             "result": "ANOMALY DETECTED!",
             "loss": mse_loss,
-            "status": "Alert added to pending pool"
+            "status": "Alert added to pending pool",
+            "contracts_triggered": len(executed_actions),
+            "actions": [a.action.value for a in executed_actions]
         }), 201
     
     return jsonify({"result": "Traffic Normal", "loss": mse_loss}), 200
@@ -175,6 +191,15 @@ def manual_alert():
     if not all(k in values for k in required): return 'Missing data', 400
     index = blockchain.add_alert(values['sender'], values['type'], values['confidence'])
     return jsonify({'message': f'Manual alert added to block {index}'}), 201
+
+# 5. SMART CONTRACT API
+@app.route('/contracts', methods=['GET'])
+def get_contracts():
+    """List all smart contracts and their current status."""
+    return jsonify({
+        "contracts": contract_engine.get_contracts_info(),
+        "status": contract_engine.get_status()
+    }), 200
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Sentinel Mesh Node")

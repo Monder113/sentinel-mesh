@@ -75,6 +75,13 @@ def get_network_data():
             status = requests.get(f"{url}/status", timeout=1).json()
             chain_resp = requests.get(f"{url}/chain", timeout=1).json()
             
+            # Get contract data
+            try:
+                contracts_resp = requests.get(f"{url}/contracts", timeout=1).json()
+                contract_status = contracts_resp.get('status', {})
+            except Exception:
+                contract_status = {}
+            
             all_info.append({
                 "URL": url,
                 "ID": status.get('id', 'Unknown'),
@@ -84,9 +91,10 @@ def get_network_data():
                 "Chain Length": chain_resp.get('length', 0),
                 "Blocks": chain_resp.get('chain', []),
                 "Status": "Active",
-                "Color": "green"
+                "Color": "green",
+                "Contracts": contract_status
             })
-        except:
+        except Exception:
             all_info.append({
                 "URL": url, 
                 "ID": "-", 
@@ -96,7 +104,8 @@ def get_network_data():
                 "Chain Length": 0, 
                 "Blocks": [],
                 "Status": "Offline",
-                "Color": "red"
+                "Color": "red",
+                "Contracts": {}
             })
     return all_info
 
@@ -113,6 +122,40 @@ kpi1.metric("Active Nodes", f"{active_nodes}/{len(NODES)}")
 kpi2.metric("Blockchain Height", max_height)
 kpi3.metric("Network Connectivity", "Mesh Active" if active_nodes > 1 else "Partitioned")
 kpi4.metric("Avg Reputation", f"{sum([n['Reputation'] for n in network_data])/len(NODES):.1f}" if len(NODES)>0 else "0")
+
+# Smart Contract Status Section
+st.markdown("---")
+st.subheader("📜 Smart Contract Defense System")
+
+col_contracts, col_actions = st.columns([1, 1])
+
+with col_contracts:
+    st.markdown("**Active Contracts**")
+    # Get contracts from first active node
+    active_node_data = next((n for n in network_data if n['Status'] == 'Active'), None)
+    if active_node_data and active_node_data.get('Contracts'):
+        contracts = active_node_data['Contracts']
+        st.metric("Enabled Contracts", contracts.get('enabled_contracts', 0))
+        st.metric("Blocked IPs", len(contracts.get('blocked_ips', [])))
+        st.metric("Actions Executed", contracts.get('total_actions_executed', 0))
+    else:
+        st.info("Contract data unavailable")
+
+with col_actions:
+    st.markdown("**Recent Actions**")
+    if active_node_data and active_node_data.get('Contracts'):
+        recent = active_node_data['Contracts'].get('recent_actions', [])
+        if recent:
+            for action in recent[-3:]:
+                action_icon = {"BLOCK_IP": "🚫", "RATE_LIMIT": "⏱️", "QUARANTINE": "🔒", "ALERT_NETWORK": "📢"}
+                icon = action_icon.get(action['action'], "⚡")
+                st.success(f"{icon} {action['contract']}: {action['action']}")
+        else:
+            st.info("No actions triggered yet")
+    else:
+        st.info("No contract activity")
+
+st.markdown("---")
 
 # 2. Tablo ve Grafik
 col_main, col_chart = st.columns([1, 1])

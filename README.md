@@ -11,6 +11,7 @@ By combining **Artificial Intelligence (Autoencoders)** for anomaly detection wi
 * **🧠 AI-Powered Anomaly Detection:** Utilizes a PyTorch-based *Autoencoder* to detect zero-day attacks and traffic anomalies with high precision (trained on the CICIDS2017 dataset).
 * **🔗 Custom Blockchain Protocol:** A fully functional, Python-based blockchain implementation featuring SHA-256 hashing, chain validation, and automatic conflict resolution.
 * **⭐ Proof-of-Reputation (PoR):** An energy-efficient consensus algorithm. Unlike Proof-of-Work, nodes must earn a "Reputation Score" (>50) by performing honest network tasks to validate blocks.
+* **📜 Smart Contracts:** Automated defense system that triggers actions (BLOCK_IP, RATE_LIMIT, QUARANTINE) when threats are detected.
 * **📡 Decentralized P2P Sync:** Features automatic peer discovery and ledger synchronization. Nodes automatically resolve chain forks to maintain a single truth.
 * **📊 Real-Time Command Center:** An interactive Streamlit dashboard to monitor network health, visualize the blockchain ledger, and audit node reputation.
 
@@ -18,12 +19,13 @@ By combining **Artificial Intelligence (Autoencoders)** for anomaly detection wi
 
 ## 🛠️ System Architecture
 
-The system is composed of four main modules:
+The system is composed of five main modules:
 
 1.  **The Eye (`detector.py`):** The Deep Learning module that scans network traffic samples and calculates reconstruction error (MSE) to flag anomalies.
 2.  **The Memory (`blockchain.py`):** A distributed ledger that stores verified threat alerts. It ensures data integrity using cryptographic linking.
 3.  **The Brain (`node.py`):** A Flask-based REST API acting as the network node. It handles mining, P2P communication, and reputation management.
-4.  **The Interface (`dashboard.py`):** A visual front-end for network administrators to monitor nodes and control the simulation.
+4.  **The Shield (`contracts.py`):** Smart contract engine that automatically triggers defensive actions when threats are detected.
+5.  **The Interface (`dashboard.py`):** A visual front-end for network administrators to monitor nodes and control the simulation.
 
 ---
 
@@ -105,7 +107,8 @@ Once the system is running, use the Dashboard sidebar to test the following scen
 sentinel-mesh/
 ├── core/
 │   ├── blockchain.py       # 🧠 Core Blockchain logic & Consensus (PoR)
-│   └── detector.py         # 👁️ PyTorch Autoencoder Model Wrapper
+│   ├── detector.py         # 👁️ PyTorch Autoencoder Model Wrapper
+│   └── contracts.py        # 📜 Smart Contract Engine for auto-defense
 ├── utils/
 │   ├── data_helper.py      # 🛠️ Data loading & preprocessing tools
 │   └── scaler.pkl          # ⚖️ Pre-fitted Scaler for normalization
@@ -126,7 +129,7 @@ sentinel-mesh/
 ## 📜 Future Roadmap
 
 * [ ] Implementation of **Digital Signatures (RSA/ECC)** for alert verification.
-* [ ] **Smart Contract** layer for automated response strategies.
+* [x] ~~**Smart Contract** layer for automated response strategies.~~ ✅ Implemented!
 * [ ] **Docker** support for rapid cloud deployment.
 * [ ] Integration of a **Slashing Mechanism** to penalize malicious nodes.
 
