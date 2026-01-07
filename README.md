@@ -25,7 +25,7 @@ By combining **Artificial Intelligence (Autoencoders)** for anomaly detection wi
 
 The system relies on a collaborative mesh network where AI Agents (Walker Nodes) continuously scan traffic and validate each other's findings via the blockchain.
 
-![Sentinel Mesh Architecture Diagram](assets/architecture_diagram.jpg)
+![Sentinel Mesh Architecture Diagram](assets/architecture_diagram.png)
 
 The system is composed of five main modules:
 
