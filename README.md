@@ -45,7 +45,8 @@ The system is composed of five main modules:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/Monder113/sentinel-mesh.git 
+git clone https://github.com/onder-m/sentinel-mesh.git 
+cd sentinel-mesh 
 ```
 
 ### 2. Set Up Virtual Environment (Recommended)
