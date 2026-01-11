@@ -158,20 +158,20 @@ class ContractEngine:
         if contract.action == ActionType.BLOCK_IP:
             self.blocked_ips.add(source_ip)
             details["message"] = f"IP {source_ip} added to blocklist"
-            print(f"🚫 CONTRACT EXECUTED: {contract.name} - Blocked {source_ip}")
+            print(f"CONTRACT EXECUTED: {contract.name} - Blocked {source_ip}")
             
         elif contract.action == ActionType.RATE_LIMIT:
             self.rate_limited[source_ip] = time.time() + 300  # 5 min limit
             details["message"] = f"IP {source_ip} rate limited for 5 minutes"
-            print(f"⏱️ CONTRACT EXECUTED: {contract.name} - Rate limiting {source_ip}")
+            print(f"CONTRACT EXECUTED: {contract.name} - Rate limiting {source_ip}")
             
         elif contract.action == ActionType.QUARANTINE:
             details["message"] = f"Traffic from {source_ip} quarantined for analysis"
-            print(f"🔒 CONTRACT EXECUTED: {contract.name} - Quarantined {source_ip}")
+            print(f"CONTRACT EXECUTED: {contract.name} - Quarantined {source_ip}")
             
         elif contract.action == ActionType.ALERT_NETWORK:
             details["message"] = "Alert broadcasted to all peer nodes"
-            print(f"📢 CONTRACT EXECUTED: {contract.name} - Network alert sent")
+            print(f"CONTRACT EXECUTED: {contract.name} - Network alert sent")
         
         return ExecutedAction(
             contract_name=contract.name,

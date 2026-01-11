@@ -15,9 +15,17 @@ By combining **Artificial Intelligence (Autoencoders)** for anomaly detection wi
 * **📡 Decentralized P2P Sync:** Features automatic peer discovery and ledger synchronization. Nodes automatically resolve chain forks to maintain a single truth.
 * **📊 Real-Time Command Center:** An interactive Streamlit dashboard to monitor network health, visualize the blockchain ledger, and audit node reputation.
 
+### 📸 Dashboard Preview
+![Sentinel Mesh Dashboard Explorer](assets/dashboard_preview.png)
+*The interactive dashboard showing real-time block verification and node data in Turkish.*
+
 ---
 
 ## 🛠️ System Architecture
+
+The system relies on a collaborative mesh network where AI Agents (Walker Nodes) continuously scan traffic and validate each other's findings via the blockchain.
+
+![Sentinel Mesh Architecture Diagram](assets/architecture_diagram.png)
 
 The system is composed of five main modules:
 
