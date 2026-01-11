@@ -60,8 +60,9 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 ### 3. Install Dependencies
+```bash
 pip install -r requirements.txt
-
+```
 
 ---
 
@@ -83,8 +84,9 @@ python node.py -p 5001 --peers localhost:5000
 
 ### Step 3: Launch the Dashboard
 Start the command center to visualize the network.
+```bash
 streamlit run dashboard.py
-
+```
 
 ---
 
